@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import {
@@ -15,20 +15,39 @@ type ArticleParamsFormProps = {
 
 export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
+	const formRef = useRef<HTMLDivElement>(null);
 
 	const handleToggle = () => {
 		setIsOpen((prev) => !prev);
 	};
+
 	const handleApply = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		onApply(defaultArticleState);
 	};
 
+	useEffect(() => {
+		if (!isOpen) return;
+
+		const handleClickOutside = (event: MouseEvent) => {
+			if (formRef.current && !formRef.current.contains(event.target as Node)) {
+				setIsOpen(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [isOpen]);
+
 	return (
 		<>
 			<ArrowButton isOpen={isOpen} onClick={handleToggle} />
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
+				className={clsx(styles.container, { [styles.container_open]: isOpen })}
+				ref={formRef}>
 				<form className={styles.form} onSubmit={handleApply}>
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />

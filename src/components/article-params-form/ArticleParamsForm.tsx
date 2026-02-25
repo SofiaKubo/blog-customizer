@@ -105,7 +105,9 @@ export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 							}))
 						}
 					/>
-					<Separator />
+					<div className={styles.separator}>
+						<Separator />
+					</div>
 					<Select
 						title='Цвет фона'
 						selected={formState.backgroundColor}

@@ -15,7 +15,7 @@ type ArticleParamsFormProps = {
 
 export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 	const [isOpen, setIsOpen] = useState(false);
-	const formRef = useRef<HTMLDivElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 
 	const handleToggle = () => {
 		setIsOpen((prev) => !prev);
@@ -30,7 +30,10 @@ export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 		if (!isOpen) return;
 
 		const handleClickOutside = (event: MouseEvent) => {
-			if (formRef.current && !formRef.current.contains(event.target as Node)) {
+			if (
+				containerRef.current &&
+				!containerRef.current.contains(event.target as Node)
+			) {
 				setIsOpen(false);
 			}
 		};
@@ -43,11 +46,10 @@ export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 	}, [isOpen]);
 
 	return (
-		<>
+		<div ref={containerRef}>
 			<ArrowButton isOpen={isOpen} onClick={handleToggle} />
 			<aside
-				className={clsx(styles.container, { [styles.container_open]: isOpen })}
-				ref={formRef}>
+				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
 				<form className={styles.form} onSubmit={handleApply}>
 					<div className={styles.bottomContainer}>
 						<Button title='Сбросить' htmlType='reset' type='clear' />
@@ -55,6 +57,6 @@ export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 					</div>
 				</form>
 			</aside>
-		</>
+		</div>
 	);
 };

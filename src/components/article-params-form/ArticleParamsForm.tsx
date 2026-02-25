@@ -33,11 +33,15 @@ export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 		setIsOpen((prev) => !prev);
 	};
 
-	const handleApply = (event: FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		onApply(formState);
 	};
-	const handleReset = () => {};
+
+	const handleReset = () => {
+		setFormState(defaultArticleState);
+		onApply(defaultArticleState);
+	};
 
 	useEffect(() => {
 		if (!isOpen) return;
@@ -63,7 +67,7 @@ export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
 			<ArrowButton isOpen={isOpen} onClick={handleToggle} />
 			<aside
 				className={clsx(styles.container, { [styles.container_open]: isOpen })}>
-				<form className={styles.form} onSubmit={handleApply}>
+				<form className={styles.form} onSubmit={handleSubmit}>
 					<Text as='h2' size={31} weight={800} uppercase>
 						Задайте параметры
 					</Text>

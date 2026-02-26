@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect, FormEvent } from 'react';
+import { useState, useRef, FormEvent } from 'react';
 import { ArrowButton } from 'src/ui/arrow-button';
 import { Button } from 'src/ui/button';
 import { Select } from 'src/ui/select';
 import { RadioGroup } from 'src/ui/radio-group';
 import { Separator } from 'src/ui/separator';
 import { Text } from 'src/ui/text';
+import { useCloseOnOutsideClickOrEsc } from 'src/hooks/useCloseOnOutsideClickOrEsc';
 import {
 	defaultArticleState,
 	ArticleStateType,
@@ -46,24 +47,11 @@ export const ArticleParamsForm = ({
 		onApply(defaultArticleState);
 	};
 
-	useEffect(() => {
-		if (!isSidebarOpen) return;
-
-		const handleClickOutside = (event: MouseEvent) => {
-			if (
-				containerRef.current &&
-				!containerRef.current.contains(event.target as Node)
-			) {
-				setIsSidebarOpen(false);
-			}
-		};
-
-		document.addEventListener('mousedown', handleClickOutside);
-
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [isSidebarOpen]);
+	useCloseOnOutsideClickOrEsc({
+		isOpenElement: isSidebarOpen,
+		elementRef: containerRef,
+		onClose: () => setIsSidebarOpen(false),
+	});
 
 	const updateFormField = (field: keyof ArticleStateType) => {
 		return (value: OptionType) => {

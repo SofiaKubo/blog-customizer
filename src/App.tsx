@@ -7,7 +7,6 @@ import {
 	ArticleStateType,
 } from './constants/articleProps';
 
-import './styles/index.scss';
 import styles from './styles/index.module.scss';
 
 export const App = () => {
@@ -26,7 +25,10 @@ export const App = () => {
 					'--bg-color': articleState.backgroundColor.value,
 				} as CSSProperties
 			}>
-			<ArticleParamsForm onApply={setArticleState} />
+			<ArticleParamsForm
+				onApply={setArticleState}
+				currentState={articleState}
+			/>
 			<Article />
 		</main>
 	);

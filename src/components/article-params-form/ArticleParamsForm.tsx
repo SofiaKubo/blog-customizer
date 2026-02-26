@@ -21,12 +21,15 @@ import styles from './ArticleParamsForm.module.scss';
 
 type ArticleParamsFormProps = {
 	onApply: (newState: ArticleStateType) => void;
+	currentState: ArticleStateType;
 };
 
-export const ArticleParamsForm = ({ onApply }: ArticleParamsFormProps) => {
+export const ArticleParamsForm = ({
+	onApply,
+	currentState,
+}: ArticleParamsFormProps) => {
 	const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-	const [formState, setFormState] =
-		useState<ArticleStateType>(defaultArticleState);
+	const [formState, setFormState] = useState<ArticleStateType>(currentState);
 	const containerRef = useRef<HTMLDivElement>(null);
 
 	const handleToggle = () => {

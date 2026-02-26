@@ -65,6 +65,12 @@ export const ArticleParamsForm = ({
 		};
 	}, [isSidebarOpen]);
 
+	const updateFormField = (field: keyof ArticleStateType) => {
+		return (value: OptionType) => {
+			setFormState((prev) => ({ ...prev, [field]: value }));
+		};
+	};
+
 	return (
 		<div ref={containerRef}>
 			<ArrowButton isOpen={isSidebarOpen} onClick={handleToggle} />
@@ -80,35 +86,20 @@ export const ArticleParamsForm = ({
 						title='Шрифт'
 						selected={formState.fontFamilyOption}
 						options={fontFamilyOptions}
-						onChange={(option: OptionType) =>
-							setFormState((prev) => ({
-								...prev,
-								fontFamilyOption: option,
-							}))
-						}
+						onChange={updateFormField('fontFamilyOption')}
 					/>
 					<RadioGroup
 						name='fontSize'
 						title='Размер шрифта'
 						selected={formState.fontSizeOption}
 						options={fontSizeOptions}
-						onChange={(option: OptionType) =>
-							setFormState((prev) => ({
-								...prev,
-								fontSizeOption: option,
-							}))
-						}
+						onChange={updateFormField('fontSizeOption')}
 					/>
 					<Select
 						title='Цвет шрифта'
 						selected={formState.fontColor}
 						options={fontColors}
-						onChange={(option: OptionType) =>
-							setFormState((prev) => ({
-								...prev,
-								fontColor: option,
-							}))
-						}
+						onChange={updateFormField('fontColor')}
 					/>
 					<div className={styles.separator}>
 						<Separator />
@@ -117,23 +108,13 @@ export const ArticleParamsForm = ({
 						title='Цвет фона'
 						selected={formState.backgroundColor}
 						options={backgroundColors}
-						onChange={(option: OptionType) =>
-							setFormState((prev) => ({
-								...prev,
-								backgroundColor: option,
-							}))
-						}
+						onChange={updateFormField('backgroundColor')}
 					/>
 					<Select
 						title='Ширина контента'
 						selected={formState.contentWidth}
 						options={contentWidthArr}
-						onChange={(option: OptionType) =>
-							setFormState((prev) => ({
-								...prev,
-								contentWidth: option,
-							}))
-						}
+						onChange={updateFormField('contentWidth')}
 					/>
 
 					<div className={styles.bottomContainer}>
